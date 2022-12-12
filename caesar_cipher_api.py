@@ -11,9 +11,19 @@ def encrypt():
         data = json.loads(request.data)
         plaintext = data['plaintext'].upper()
         n_shift = int(data['shift'])
-        shifted_alphabet = alphabet_upper[n_shift:] + alphabet_upper[:n_shift]
-        table = str.maketrans(shifted_alphabet, alphabet_upper)
-        return plaintext.translate(table)
+        n_step = int(data['step'])
+        if data['isProgressive']:
+            result = []
+            for i in range(len(plaintext)):
+                shifted_alphabet = alphabet_upper[n_shift +
+                                                  i+(n_step-1):] + alphabet_upper[:n_shift+i+(n_step-1)]
+                table = str.maketrans(alphabet_upper, shifted_alphabet)
+                result.append(plaintext[i].translate(table))
+            return ''.join(result)
+        else:
+            shifted_alphabet = alphabet_upper[n_shift:] + alphabet_upper[:n_shift]
+            table = str.maketrans(shifted_alphabet, alphabet_upper)
+            return plaintext.translate(table)
     else:
         return 'Bad Request!'
 
