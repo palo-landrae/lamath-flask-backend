@@ -22,7 +22,7 @@ def encrypt():
             return ''.join(result)
         else:
             shifted_alphabet = alphabet_upper[n_shift:] + alphabet_upper[:n_shift]
-            table = str.maketrans(shifted_alphabet, alphabet_upper)
+            table = str.maketrans(alphabet_upper, shifted_alphabet)
             return plaintext.translate(table)
     else:
         return 'Bad Request!'
@@ -34,7 +34,7 @@ def decrypt():
         plaintext = data['cipher'].upper()
         n_shift = int(data['shift'])
         shifted_alphabet = alphabet_upper[n_shift:] + alphabet_upper[:n_shift]
-        table = str.maketrans(alphabet_upper, shifted_alphabet)
+        table = str.maketrans(shifted_alphabet, alphabet_upper)
         return plaintext.translate(table)
     else:
         return 'Bad Request!'
